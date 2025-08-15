@@ -1,5 +1,3 @@
-
-
 export let cart = JSON.parse(localStorage.getItem('cart')) || [{
   productId: 'e43638ce-6aa0-4b85-b27f-e1d07eb678c6',
   quantity: 2,
@@ -80,6 +78,20 @@ export function updateQuantity(productId, newQuantity) {
     };
   });
   matchingItem.quantity = newQuantity;
+
+  saveToStorage();
+};
+
+export function updateDeliveryOption(productId, deliveryOptionId) {
+  let matchingItem;
+
+  cart.forEach((cartItem)=> {
+    if(productId === cartItem.productId) {
+      matchingItem = cartItem;
+    };
+  });
+
+  matchingItem.deliveryOptionId = deliveryOptionId;
 
   saveToStorage();
 };
