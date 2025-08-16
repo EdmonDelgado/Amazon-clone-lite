@@ -76,7 +76,18 @@ document.querySelectorAll('.js-add-to-cart')
     button.addEventListener('click', () => {
       const {productId} = button.dataset;
 
-      addToCart(productId);
+      let quantitySelector = document.querySelector(`.js-quantity-selector-${productId}`);
+      let quantity = Number(quantitySelector.value);
+
+      let addedElement = document.querySelector(`.js-added-to-cart-${productId}`);
+      
+      addedElement.classList.add('js-added');
+      
+      setTimeout(() =>{
+        addedElement.classList.remove('js-added');
+      }, 2000)
+
+      addToCart(productId, quantity);
       updateCartQuantity();
     });
   });
