@@ -1,15 +1,14 @@
-import {cart, removeFromCart, updateDeliveryOption} from '../../data/cart.js';
+import {cart} from '../../data/cart-class.js';
 import {getProduct} from '../../data/products.js';
 import {formatCurrency} from '../utils/money.js';
-import {updateQuantity } from '../../data/cart.js';
 import {deliveryOptions, getDeliveryOption, calculateDeliveryDate} from '../../data/deliveryOptions.js';
-import { renderPaymentSummary } from './paymentSummary.js';
-import { renderCheckoutHeader } from './checkoutHeader.js';
+import {renderPaymentSummary} from './paymentSummary.js';
+import {renderCheckoutHeader} from './checkoutHeader.js';
 
 export function renderOrderSummary() {
   let cartSummaryHTML = ``;
 
-  cart.forEach((cartItem) => {
+  cart.cartItems.forEach((cartItem) => {
     const {productId} = cartItem;
     const matchingProduct = getProduct(productId);
     const deliveryOptionId = cartItem.deliveryOptionId;
@@ -111,7 +110,7 @@ export function renderOrderSummary() {
     .forEach((link) => {
       link.addEventListener('click', () => {
         const {productId} = link.dataset;
-        removeFromCart(productId);
+        cart.removeFromCart(productId);
 
         renderCheckoutHeader();
         renderOrderSummary();
@@ -141,7 +140,7 @@ export function renderOrderSummary() {
 
       let quantityElement = document.querySelector(`.js-quantity-input-${productId}`);
       let quantity = Number(quantityElement.value);
-      updateQuantity(productId, quantity);
+      cart.updateQuantity(productId, quantity);
 
       const quantityLabel = document.querySelector(`.js-quantity-label-${productId}`);
 
@@ -156,7 +155,7 @@ export function renderOrderSummary() {
       element.addEventListener('click', () => {
         const {productId, optionId} = element.dataset;
         
-        updateDeliveryOption(productId, optionId);
+        cart.updateDeliveryOption(productId, optionId);
         renderOrderSummary(); 
         renderPaymentSummary ();
       });
