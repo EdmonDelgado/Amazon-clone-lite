@@ -11,7 +11,13 @@ The goal is to strengthen my skills in **JavaScript, DOM manipulation, API calls
   - Persistence of added items using the `Cart` class.  
   - Methods to add, remove, update quantities, and change delivery options.  
 - **DOM manipulation**: dynamic rendering of products, cart items, and quantities.  
-- **Responsive design**: built with HTML5 and CSS3 to simulate Amazon’s UI.  
+- **Responsive design**: built with HTML5 and CSS3 to simulate Amazon’s UI.
+
+## 🔨 Coming Features / Work in Progress
+
+- Making the search bar engine fully functional
+- Making orders tracking interactive
+- Implementing the “Buy Again” feature in the shopping experience
 
 ## 🛠️ Tech Stack
 
@@ -43,8 +49,6 @@ tests/              → Automated tests with Jasmine
 - Writing automated tests with Jasmine.
 
 ## 📦 How to Run
-
-1. Clone the repository:
-   git clone https://github.com/EdmonDelgado/Amazon-clone-lite.git
-
-2. Open amazon.html in your browser to start.
+- View online via GitHub Pages:
+  - The project is hosted at: https://your-username.github.io/amazon-clone-lite/
+  - Simply open the link in your browser to explore the main page, checkout, orders, and tracking pages.
