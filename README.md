@@ -50,5 +50,5 @@ tests/              → Automated tests with Jasmine
 
 ## 📦 How to Run
 - View online via GitHub Pages:
-  - The project is hosted at: https://your-username.github.io/amazon-clone-lite/
+  - The project is hosted at: https://edmondelgado.github.io/Amazon-clone-lite/
   - Simply open the link in your browser to explore the main page, checkout, orders, and tracking pages.
