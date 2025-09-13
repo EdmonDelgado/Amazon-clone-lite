@@ -1,4 +1,4 @@
-import {cart} from '../data/cart-class.js';
+import {cart} from '../data/cart.js';
 import {products, loadProductsFetch} from '../data/products.js';
 
 async function renderProductsGrid() {
