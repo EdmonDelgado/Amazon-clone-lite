@@ -141,20 +141,28 @@ export function renderOrderSummary() {
   document.querySelectorAll('.js-save-quantity-link').forEach((link) => {
     link.addEventListener('click', () => {
       const {productId} = link.dataset;
-
-      let container = document.querySelector(`.js-cart-item-container-${productId}`);
-
-      container.classList.remove("is-editing-quantity");
-
       let quantityElement = document.querySelector(`.js-quantity-input-${productId}`);
       let quantity = Number(quantityElement.value);
-      cart.updateQuantity(productId, quantity);
 
-      const quantityLabel = document.querySelector(`.js-quantity-label-${productId}`);
+      if(quantity <= 0) {
+        alert('quantity must be between 1 and 50')
+        return
+      } else if (quantity > 50) {
+        alert('quantity must be between 1 and 50')
+        return
+      } else {
+        let container = document.querySelector(`.js-cart-item-container-${productId}`);
 
-      quantityLabel.innerHTML = quantity;
-      renderCheckoutHeader();
-      renderPaymentSummary ();
+        container.classList.remove("is-editing-quantity");
+
+        cart.updateQuantity(productId, quantity);
+
+        const quantityLabel = document.querySelector(`.js-quantity-label-${productId}`);
+
+        quantityLabel.innerHTML = quantity;
+        renderCheckoutHeader();
+        renderPaymentSummary ();
+      }
     });
   });
 
