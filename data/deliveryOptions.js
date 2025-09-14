@@ -33,10 +33,19 @@ export function calculateDeliveryDate(deliveryOption) {
 
   while(daysRemaining > 0) {
     deliveryDate = deliveryDate.add(1, 'day');
-
+    
+    /*
     if (!isWeekend(deliveryDate)){
       daysRemaining--;
     }
+    */
+
+    daysRemaining--;
+
+    // issue encountered with backend, when posting an order it does not send the delivery 
+    // info along with it, resulting in the expected delivery time being different
+    // in the orders page than the one in the order summary, more specifically it doesn't
+    // skip weekends.
   };
 
   const dateString = deliveryDate.format('dddd, MMMM D');
