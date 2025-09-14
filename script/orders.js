@@ -2,9 +2,12 @@ import {orders} from "../data/orders.js";
 import {loadProductsFetch, getProduct} from "../data/products.js";
 import {formatCurrency} from "./utils/money.js";
 import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js';
+import {cart} from '../data/cart.js';
 
 async function loadPage() {
   await loadProductsFetch();
+
+  renderOrdersHeader();
 
   let orderHTML = ``;
 
@@ -64,13 +67,17 @@ async function loadPage() {
           </div>
           <button class="buy-again-button button-primary">
             <img class="buy-again-icon" src="images/icons/buy-again.png">
-            <span class="buy-again-message">Buy it again</span>
+            <span class="buy-again-message js-buy-again-button"
+              data-product-id="${product.id}">
+              Buy it again
+            </span>
           </button>
         </div>
 
         <div class="product-actions">
           <a href="tracking.html?orderId=${order.id}&productId=${product.id}">
-            <button class="track-package-button button-secondary">
+            <button class="track-package-button button-secondary"
+              data-product-id="${product.id}">
               Track package
             </button>
           </a>
@@ -81,10 +88,25 @@ async function loadPage() {
     return productsListHTML;
   }
 
+  function renderOrdersHeader() {
+    let cartQuantity = cart.calculateCartQuantity();
+
+    document.querySelector('.js-cart-quantity')
+      .innerHTML = cartQuantity;
+  };
+
   document.querySelector('.js-orders-grid')
     .innerHTML = orderHTML;
 
-  
+  document.querySelectorAll(`.js-buy-again-button`)
+    .forEach((button) => {
+      button.addEventListener('click', () => {
+        const {productId} = button.dataset;
+        console.log(cart);
+        cart.addToCart(productId, 1);
+        renderOrdersHeader();
+      });
+    });
 }
 
 loadPage();
