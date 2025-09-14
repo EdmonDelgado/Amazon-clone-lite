@@ -1,4 +1,4 @@
-import {orders} from "../data/orders.js";
+import {orders, saveOrderToStorage} from "../data/orders.js";
 import {loadProductsFetch, getProduct} from "../data/products.js";
 import {formatCurrency} from "./utils/money.js";
 import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js';
@@ -11,36 +11,50 @@ async function loadPage() {
 
   let orderHTML = ``;
 
-  orders.forEach((order) => {
-    const orderTimeString = dayjs(order.orderTime).format('MMMM D');
-
-    orderHTML += `
-      <div class="order-container">
-        
-        <div class="order-header">
-          <div class="order-header-left-section">
-            <div class="order-date">
-              <div class="order-header-label">Order Placed:</div>
-              <div>${orderTimeString}</div>
-            </div>
-            <div class="order-total">
-              <div class="order-header-label">Total:</div>
-              <div>$${formatCurrency(order.totalCostCents)}</div>
-            </div>
-          </div>
-
-          <div class="order-header-right-section">
-            <div class="order-header-label">Order ID:</div>
-            <div>${order.id}</div>
-          </div>
-        </div>
-
-        <div class="order-details-grid js-order-details-grid">
-          ${productsListHTML(order)}
-        </div>
+  if(orders.length === 0) {
+    orderHTML = `
+      <div class="no-orders-message">
+        No orders yet.
       </div>
     `;
-  });
+
+    document.querySelector('.js-clear-orders')
+      .classList.add("no-orders");   
+  } else {
+    orders.forEach((order) => {
+      const orderTimeString = dayjs(order.orderTime).format('MMMM D');
+
+      orderHTML += `
+        <div class="order-container">
+          
+          <div class="order-header">
+            <div class="order-header-left-section">
+              <div class="order-date">
+                <div class="order-header-label">Order Placed:</div>
+                <div>${orderTimeString}</div>
+              </div>
+              <div class="order-total">
+                <div class="order-header-label">Total:</div>
+                <div>$${formatCurrency(order.totalCostCents)}</div>
+              </div>
+            </div>
+
+            <div class="order-header-right-section">
+              <div class="order-header-label">Order ID:</div>
+              <div>${order.id}</div>
+            </div>
+          </div>
+
+          <div class="order-details-grid js-order-details-grid">
+            ${productsListHTML(order)}
+          </div>
+        </div>
+      `;
+    });
+
+    document.querySelector('.js-clear-orders')
+      .classList.remove("no-orders")
+  };
 
   function productsListHTML(order) {
     let productsListHTML = ``;
@@ -102,10 +116,16 @@ async function loadPage() {
     .forEach((button) => {
       button.addEventListener('click', () => {
         const {productId} = button.dataset;
-        console.log(cart);
         cart.addToCart(productId, 1);
         renderOrdersHeader();
       });
+    });
+
+  document.querySelector('.js-clear-orders')
+    .addEventListener('click', () => {
+      orders.length = 0;
+      saveOrderToStorage();
+      loadPage();
     });
 }
 

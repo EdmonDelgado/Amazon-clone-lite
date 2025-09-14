@@ -19,6 +19,14 @@
   margin-bottom: 25px;
 }
 
+.clear-orders {
+  font-size: 15px; 
+}
+
+.no-orders {
+  display: none;
+}
+
 .orders-grid {
   display: grid;
   grid-template-columns: 1fr;
